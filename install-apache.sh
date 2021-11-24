@@ -25,6 +25,20 @@ else
 
 fi
 
+echo " ------------------------- ";
+echo " Limpiando Apache corrupto ";
+echo " ------------------------- ";
+echo " ";
+
+
+sudo apt remove apache2 -y;
+sudo apt autourge apache2 -y;
+
+echo " --------------------- ";
+echo " Se ha limpiado el apache corrupto";
+echo " -------------------- ";
+echo " ";
+
 
 cd /etc/apache2/sites-available/
 
