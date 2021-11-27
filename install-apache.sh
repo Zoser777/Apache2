@@ -25,73 +25,83 @@ else
 
 fi
 
-cd /etc/apache2/sites-available/
-
+echo " ";
 echo " ------------------------- ";
 echo " Limpiando Apache corrupto ";
 echo " ------------------------- ";
 echo " ";
 
 
-sudo apt remove apache2 -y &>/dev/null;
-sudo apt autopurge apache2 -y &>/dev/null;
+sudo apt remove apache2 -y 
+sudo apt autopurge apache2 -y 
 
-echo " --------------------- ";
+echo " ";
+echo " ------------------------- ";
 echo " Se ha limpiado el apache corrupto";
-echo " -------------------- ";
+echo " ------------------------- ";
 echo " ";
 
-echo " ---------------------";
-echo " Instalando apache ";
-echo " ---------------------";
-echo " ";
-
+sleep 3;
 
 
 #Ejecutamos un update
-sudo apt update -y &>/dev/null
+sudo apt update -y 
 
-#Ejectuamos un upgrade
-sudo apt upgrade -y &>/dev/null
+sleep 3;
 
+echo " ";
+echo " ------------------------- ";
+echo " Instalando Net-tools ";
+echo " ------------------------- ";
+echo " ";
 
 #Descargamos net-tools
-sudo apt install net-tools &>/dev/null
+sudo apt install net-tools -y
+
+
+sleep 3;
+
+echo " ";
+echo " ------------------------- ";
+echo " Instalando Apache2 ";
+echo " ------------------------- ";
+echo " ";
 
 
 #Descargamos apache2
-sudo apt install apache2 -y &>/dev/null
+sudo apt install apache2 -y 
 
-if [ $? == 1 ]
-then
-echo "----------------";
-echo " Apache ya está instalado";
-echo "----------------";
-fi
 
 
 #Comprobamos status apache
+sleep 2;
 
 echo " ";
-echo " ";
-echo " ---------------------------- "; 
+echo " ------------------------- ";
 
 api=$(service apache2 status | grep "Active" |  cut -d ":" -f2 | cut -d " " -f3);
 if [ $api == "(running)" ]
 then
 
 	echo "Apache está corriendo";
+else
 
+	echo "ERROR: Ejecute systemctl status apache2 , para ver el error";
+	echo " Saliendo del programa ";
+	exit 1;
 fi
 
-echo " ---------------------------- "; 
+echo " ------------------------- ";
 echo " ";
 
 ipred=$(hostname -I);
 
-echo " ---------------------------- ";
+sleep 3;
+
+echo " ";
+echo " ------------------------- ";
 echo "Tú IP de red es $ipred y la local es 127.0.0.1";
-echo " ---------------------------- ";
+echo " ------------------------- ";
 echo " ";
 
 wget http://127.0.0.1
@@ -101,12 +111,15 @@ then
 
 rm index.html
 
-echo " ---------------------------";
+sleep 3;
+
 echo " ";
+echo " ------------------------- ";
 echo "En un principio, si introduces en tu navegador http://127.0.0.1";
-echo "tendría que resolverte con la pagina de apache, de lo contrario Cmamo";
+echo "tendría que resolverte con la pagina de apache, de lo contrario ejecuta systemctl status apache2, para ver que ocurre";
+echo " ------------------------- ";
 echo " ";
-echo " ---------------------------";
+
 
 else
 
@@ -114,26 +127,31 @@ echo " -------------------------- ";
 echo " Comprueba el output del comando que hay arriba, que archivo está descargando o sino tiene nada";
 echo " -------------------------- ";
 exit 1
+
 fi
 
 
 echo " ";
+echo " ------------------------- ";
 read -p " Quieres que se te configure un VirtualHost sencillo?(si o no): " res ;
+echo " ------------------------- ";
+echo " ";
+
 if [ $res == "si" ]
 then
 
 	echo " ";
 	echo " ";
-	echo " ------------------------------- ";
+	echo " ------------------------- ";
 	echo "Configurando un VirtualHost";
-	echo " ------------------------------- ";
+	echo " ------------------------- ";
 	echo " ";
 else
 
 	echo " ";
-	echo " -------------------------------";
+	echo " ------------------------- ";
 	echo " Fin del programa ";
-	echo " -------------------------------";
+	echo " ------------------------- ";
 	echo " ";
 	exit 0;
 fi
@@ -144,31 +162,38 @@ fi
 
 
 echo " ";
-echo " ----------------------------- ";
+echo " ------------------------- ";
 read -p " Introduce el nombre del host (sin .com): " host;
-echo " ---------------------------- ";
+echo " ------------------------- ";
 echo " ";
-
+echo " ------------------------- ";
 read -p " Seguro que quieres que sea '$host' ? (si o no): " ch;
+echo " ------------------------- ";
+echo " ";
+
+sleep 3;
 
 echo " ";
-echo " -----------------------------";
+echo " ------------------------- ";
 
 
 if [ $ch == "si" ]
 then
-	echo "Perfecto, configurando algo chulo";
+	echo "Perfecto, configurando virtualhost";
 else
 	echo read -p "Cual es el nombre?: " host2;
 	host=host2;
 fi
 
-echo " ---------------------------- ";
-
-echo "  ";
-echo " Configurando .... ";
+echo " ------------------------- ";
 echo " ";
 
+echo "  ";
+echo " ------------------------- ";
+echo " Configurando .... ";
+echo " ------------------------- ";
+echo " ";
+sleep 4;
 
 sudo mkdir /var/www/$host ;
 sudo chown -R $USER:$USER /var/www/$host;
@@ -200,6 +225,12 @@ then
 	echo " -----------------------------";
 	echo " Se ha montado el nuevo VirtualHost ";
 	echo " -----------------------------";
+	
+else
+	echo " ERROR: Ha surgido un error inesperado, comprueba el estado del virtual host";
+	exit 1;
+	
+	
 fi
 
 
