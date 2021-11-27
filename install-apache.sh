@@ -80,7 +80,7 @@ echo " ";
 echo " ------------------------- ";
 
 api=$(service apache2 status | grep "Active" |  cut -d ":" -f2 | cut -d " " -f3);
-if [ $api == "(running)" ]
+if [[ "$api" == "(running)" ]]
 then
 
 	echo "Apache está corriendo";
@@ -111,7 +111,7 @@ sleep 3;
 
 echo " ";
 echo " ------------------------- ";
-echo "En un principio, si introduces en tu navegador http://127.0.0.1";
+echo "En un principio, si introduces en tu navegador http://$ipred";
 echo "tendría que resolverte con la pagina de apache, de lo contrario ejecuta systemctl status apache2, para ver que ocurre";
 echo " ------------------------- ";
 echo " ";
