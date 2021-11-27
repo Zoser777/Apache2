@@ -84,11 +84,7 @@ if [ $api == "(running)" ]
 then
 
 	echo "Apache está corriendo";
-else
 
-	echo "ERROR: Ejecute systemctl status apache2 , para ver el error";
-	echo " Saliendo del programa ";
-	exit 1;
 fi
 
 echo " ------------------------- ";
@@ -226,10 +222,7 @@ then
 	echo " Se ha montado el nuevo VirtualHost ";
 	echo " -----------------------------";
 	
-else
-	echo " ERROR: Ha surgido un error inesperado, comprueba el estado del virtual host";
-	exit 1;
-	
+
 	
 fi
 
